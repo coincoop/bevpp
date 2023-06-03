@@ -48,19 +48,25 @@ export const addToCart = async (req, res) => {
 };
 
 export const getCartByMakh = async (req, res) => {
-    try {
-        const { makh } = req.params;
-        const cart = await Cart.findAll({ where: { makh: makh } });
-        console.log("query:", cart.query); // Thêm dòng này để log ra câu truy vấn
-        if (!cart) {
-            return res.status(404).json({ message: "Cart not found" });
-        }
-        res.json(cart);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
+  try {
+      const { makh } = req.params;
+      
+      if (!makh || makh === 'undefined') {
+          return res.status(400).json({ message: "Invalid 'makh' value" });
+      }
+      
+      const cart = await Cart.findAll({ where: { makh: makh } });
+      console.log("query:", cart.query); // Thêm dòng này để log ra câu truy vấn
+      if (!cart) {
+          return res.status(404).json({ message: "Cart not found" });
+      }
+      res.json(cart);
+  } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+  }
 };
+
 
 export const deleteCart = async (req, res) => {
     try {
