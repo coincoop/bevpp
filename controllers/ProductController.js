@@ -54,18 +54,25 @@ export const getProductWithMaxPrice = async (req, res) => {
 export const getProductUrl = async (req, res) => {
   try {
     const product = await Product.findOne({ where: { url: req.params.url } });
-    const relatedProducts = await Product.findAll({
-      where: {
-        id_loailon: product.id_loailon,
-        id: {
-          [Op.not]: product.id, // Loại bỏ sản phẩm chính
+
+    if (product) {
+      const relatedProducts = await Product.findAll({
+        where: {
+          id_loailon: product.id_loailon,
+          id: {
+            [Op.not]: product.id, // Loại bỏ sản phẩm chính
+          },
         },
-      },
-    });
-    res.json({
-      product,
-      relatedProducts,
-    });
+      });
+
+      res.json({
+        product,
+        relatedProducts,
+      });
+    } else {
+      // Xử lý khi không tìm thấy sản phẩm
+      res.status(404).json({ message: "Product not found" });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
