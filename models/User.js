@@ -3,7 +3,7 @@ import db from "../config/Database.js";
 
 const {DataTypes} = Sequelize;
 
-const User = db.define('users',{
+const User = db.define('user',{
     makh: {
         type: DataTypes.INTEGER,
         primaryKey: true,
