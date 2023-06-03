@@ -25,7 +25,7 @@ export const getProduct = async (req, res) => {
     }, {});
 
     const data = {
-      
+
       products: products.map((product) => ({
         ...product.toJSON(),
         reviews: reviewByProductId[product.id] || [], // Thêm mảng đánh giá vào thông tin sản phẩm
@@ -121,7 +121,7 @@ export const getProductsByUrl = async (req, res) => {
 export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findOne({ where: { id:id } });
+    const product = await Product.findOne({ where: { id: id } });
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -144,7 +144,7 @@ export const getProductSale = async (req, res) => {
       where: { masp: productIds },
     });
 
-     const reviewByProductId = reviews.reduce((acc, review) => {
+    const reviewByProductId = reviews.reduce((acc, review) => {
       const productId = review.masp;
       if (!acc[productId]) {
         acc[productId] = [];
