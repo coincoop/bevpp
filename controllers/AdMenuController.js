@@ -1,6 +1,5 @@
 import AdMenu from "../models/AdMenuModel.js";
 
-
 export const getMenus = async (req, res) => {
   try {
     const response = await AdMenu.findAll();
@@ -30,7 +29,7 @@ export const createMenu = async (req, res) => {
     
     if (req.files && req.files.img) {
       const { img } = req.files;
-      const imgPath = `${process.env.URL_REACT}img/menu/${img.name}`;
+      const imgPath = `../fevpp/public/img/menu/${img.name}`;
 
       await img.mv(imgPath);
 
@@ -60,7 +59,7 @@ export const updateMenu = async (req, res) => {
     let imgName = img ? img.name : undefined;
 
     if (img) {
-      const imgPath = `${process.env.URL_REACT}img/menu/${img.name}`;
+      const imgPath = `../fevpp/public/img/menu/${imgName}`;
     
       await img.mv(imgPath);
 
