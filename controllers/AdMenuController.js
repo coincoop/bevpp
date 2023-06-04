@@ -29,7 +29,7 @@ export const createMenu = async (req, res) => {
     
     if (req.files && req.files.img) {
       const { img } = req.files;
-      const imgPath = `/img/menu/${img.name}`;
+      const imgPath = `https://fevpp.vercel.app/img/menu/${img.name}`;
 
       await img.mv(imgPath);
 
@@ -59,7 +59,7 @@ export const updateMenu = async (req, res) => {
     let imgName = img ? img.name : undefined;
 
     if (img) {
-      const imgPath = `/public/img/menu/${imgName}`;
+      const imgPath = `https://fevpp.vercel.app/img/menu/${imgName}`;
     
       await img.mv(imgPath);
 
