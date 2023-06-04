@@ -1,5 +1,5 @@
 import AdMenu from "../models/AdMenuModel.js";
-const path = require('path');
+
 export const getMenus = async (req, res) => {
   try {
     const response = await AdMenu.findAll();
@@ -29,12 +29,13 @@ export const createMenu = async (req, res) => {
     
     if (req.files && req.files.img) {
       const { img } = req.files;
-      const imgPath = path.join('public', 'img', 'menu', img.name);
-    
+      const imgPath = new URL('/img/menu/' + img.name, location.origin).toString();
+
       await img.mv(imgPath);
-    
+
       imgName = img.name;
     }
+
     const response = await AdMenu.create({
       name,
       parent_id,
@@ -57,13 +58,11 @@ export const updateMenu = async (req, res) => {
 
     let imgName = img ? img.name : undefined;
 
-    if (req.files && req.files.img) {
-      const { img } = req.files;
-      const imgPath = path.join('public', 'img', 'menu', img.name);
+    if (img) {
+      const imgPath = new URL('/img/menu/' + img.name, location.origin).toString();
     
       await img.mv(imgPath);
-    
-      imgName = img.name;
+
     }
 
     const menu = await AdMenu.findOne({ where: { id: req.params.id } });
