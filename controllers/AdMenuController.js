@@ -1,5 +1,5 @@
 import AdMenu from "../models/AdMenuModel.js";
-
+const path = require('path');
 export const getMenus = async (req, res) => {
   try {
     const response = await AdMenu.findAll();
@@ -29,13 +29,12 @@ export const createMenu = async (req, res) => {
     
     if (req.files && req.files.img) {
       const { img } = req.files;
-      const imgPath = `https://fevpp.vercel.app/img/menu/${img.name}`;
-
+      const imgPath = path.join('public', 'img', 'menu', img.name);
+    
       await img.mv(imgPath);
-
+    
       imgName = img.name;
     }
-
     const response = await AdMenu.create({
       name,
       parent_id,
