@@ -57,11 +57,13 @@ export const updateMenu = async (req, res) => {
 
     let imgName = img ? img.name : undefined;
 
-    if (img) {
-      const imgPath = `https://fevpp.vercel.app/img/menu/${imgName}`;
+    if (req.files && req.files.img) {
+      const { img } = req.files;
+      const imgPath = path.join('public', 'img', 'menu', img.name);
     
       await img.mv(imgPath);
-
+    
+      imgName = img.name;
     }
 
     const menu = await AdMenu.findOne({ where: { id: req.params.id } });
