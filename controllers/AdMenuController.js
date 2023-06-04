@@ -1,6 +1,5 @@
 import AdMenu from "../models/AdMenuModel.js";
-const path = require('path');
-
+import { join } from 'path';
 export const getMenus = async (req, res) => {
   try {
     const response = await AdMenu.findAll();
@@ -30,7 +29,7 @@ export const createMenu = async (req, res) => {
     
     if (req.files && req.files.img) {
       const { img } = req.files;
-      const imgPath = path.join(__dirname, '../public/img/menu', img.name);
+      const imgPath = join(__dirname, '../public/img/menu', img.name);
 
       await img.mv(imgPath);
 
@@ -60,7 +59,7 @@ export const updateMenu = async (req, res) => {
     let imgName = img ? img.name : undefined;
 
     if (img) {
-      const imgPath = path.join(__dirname, '../public/img/menu', img.name);
+      const imgPath = join(__dirname, '../public/img/menu', img.name);
     
       await img.mv(imgPath);
 
