@@ -1,12 +1,9 @@
-
-import Menu from "./MenuModel.js";
-import {Sequelize} from "sequelize";
+import {Sequelize} from 'sequelize';
 import db from "../config/Database.js";
-
 
 const {DataTypes} = Sequelize;
 
-const Product = db.define('sanphams',{
+const AdProduct = db.define('sanphams',{
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -19,7 +16,6 @@ const Product = db.define('sanphams',{
     giacu: DataTypes.DECIMAL(10, 0),
     img: DataTypes.STRING,
     img_con: DataTypes.STRING,
- 
     id_loailon: DataTypes.INTEGER,
     id_loai: DataTypes.INTEGER,
     color: DataTypes.STRING,
@@ -37,8 +33,7 @@ const Product = db.define('sanphams',{
     freezeTableName:true
 });
 
-export default Product;
-
+export default AdProduct;
 (async()=>{
     await db.sync();
 })();
