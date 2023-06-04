@@ -1,5 +1,10 @@
 import AdMenu from "../models/AdMenuModel.js";
-import { join } from 'path';
+
+import { fileURLToPath } from 'url';
+import { join, dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 export const getMenus = async (req, res) => {
   try {
     const response = await AdMenu.findAll();
