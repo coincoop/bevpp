@@ -2,8 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
-import Multer from "multer";
-import streamifier from "streamifier";
+
 dotenv.config();
 
 import FileUpload from "express-fileupload";
@@ -25,42 +24,20 @@ import AdCateProd from "./routes/AdCateProdRoute.js";
 import AdReview from "./routes/AdReviewRoute.js";
 import AdContact from "./routes/AdContactRoute.js";
 
-const storage = new Multer.memoryStorage();
-const upload = Multer({
-  storage,
-});
 
 const app = express();
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
-  secure: true,
-});
-async function handleUpload(file, folder) {
-  const res = await cloudinary.uploader.upload(file, {
-    resource_type: "auto",
-    folder: folder,
-  });
-  return res;
-}
+
+// async function handleUpload(file, folder) {
+//   const res = await cloudinary.uploader.upload(file, {
+//     resource_type: "auto",
+//     folder: folder,
+//   });
+//   return res;
+// }
 
 app.use(cors());
 
-app.post("/upload/menu", upload.single("img"), async (req, res) => {
-  try {
-    const b64 = Buffer.from(req.file.buffer).toString("base64");
-    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-    const folder = "menu"; 
-    const cldRes = await handleUpload(dataURI, folder);
-    res.json(cldRes);
-  } catch (error) {
-    console.log(error);
-    res.send({
-      message: error.message,
-    });
-  }
-});
+
 
 
 app.use(cookieParser());
