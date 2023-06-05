@@ -24,22 +24,12 @@ export const getMenuById = async (req, res) => {
 
 export const createMenu = async (req, res) => {
   try {
-    const { name, parent_id, url } = req.body;
-    let imgName = null;
-    
-    if (req.files && req.files.img) {
-      const { img } = req.files;
-      const imgPath = `../fevpp/public/img/menu/${img.name}`;
-
-      await img.mv(imgPath);
-
-      imgName = img.name;
-    }
+    const { name, parent_id, url, img } = req.body;
 
     const response = await AdMenu.create({
       name,
       parent_id,
-      img: imgName,
+      img,
       url,
     });
 
@@ -51,20 +41,10 @@ export const createMenu = async (req, res) => {
 };
 
 
+
 export const updateMenu = async (req, res) => {
   try {
-    const { name, parent_id, url } = req.body;
-    const img = req.files?.img;
-
-    let imgName = img ? img.name : undefined;
-
-    if (img) {
-      const imgPath = `../fevpp/public/img/menu/${imgName}`;
-    
-      await img.mv(imgPath);
-
-    }
-
+    const { name, parent_id, url, img } = req.body;
     const menu = await AdMenu.findOne({ where: { id: req.params.id } });
 
     if (!menu) {
@@ -74,7 +54,7 @@ export const updateMenu = async (req, res) => {
     const updatedMenu = await menu.update({
       name: name || menu.name,
       parent_id: parent_id || menu.parent_id,
-      img: imgName || menu.img,
+      img: img || menu.img,
       url: url || menu.url,
     });
 
