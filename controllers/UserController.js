@@ -135,10 +135,33 @@ export const getUserByMakh = async (req, res) => {
             return res.status(404).json({ message: "Không có user" });
         }
         const userPlain = user.get({ plain: true });
-        const { matkhau, vaitro, sodienthoai, email, ...other } = userPlain;
-        res.json(other);
+        const { matkhau, ...other } = userPlain;
+        const accessToken = generateAccessToken(user);
+            const refreshToken = generateRefreshToken(user);
+            refreshTokens.push(refreshToken);
+            res.cookie("refreshToken", refreshToken, {
+                httpOnly: true,
+                secure: false,
+                path: "/",
+                sameSite: "strict",
+            })
+        res.json({ ...other, accessToken});
     } catch (err) {
         console.log(err);
         res.status(500).json(err);
+    }
+}
+
+export const editUser = async (req, res) => {
+    try {
+        const { makh } = req.params
+        const user = await User.findOne({ where: { makh: makh } })
+        if (!user) {
+            return res.status(404).json({ message: "Không có user" });
+        }
+        await User.update(req.body ,{ where: { makh:makh}})
+        res.status(200).json({ msg: "User Updated" });
+    } catch (error) {
+        console.log(error);
     }
 }
