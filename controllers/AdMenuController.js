@@ -25,11 +25,11 @@ export const getMenuById = async (req, res) => {
 export const createMenu = async (req, res) => {
   try {
     const { name, parent_id, url, img } = req.body;
-
+    
     const response = await AdMenu.create({
       name,
       parent_id,
-      img,
+      img: img || "", // Set default value "" when img is not provided
       url,
     });
 

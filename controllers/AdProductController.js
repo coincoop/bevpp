@@ -13,10 +13,12 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
 
   try {
-    const product = await AdProduct.findOne({ where: {
-      id: req.params.id
-  }});
-    
+    const product = await AdProduct.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+
     res.status(200).json(product);
   } catch (error) {
     console.log(error.message);
@@ -43,26 +45,14 @@ export const createProduct = async (req, res) => {
     const { thuonghieu } = req.body;
     const { thetich } = req.body;
     const { url } = req.body;
-    const imgPath = `../fevpp/public/img/product/${img.name}`;
 
-    await img.mv(imgPath);
-  
-
-    // Di chuyển các tệp hình ảnh phụ đến public/images
-    await Promise.all(
-      img_con.map(async (file) => {
-        const filePath = `../fevpp/public/img/product/${file.name}`;
-       
-        await file.mv(filePath);
-   
-      })
-    );
 
     const product = await AdProduct.create({
       tensp,
+      giacu: giacu || 0,
       mota,
       mota_chinh,
-      dongia, giacu,
+      dongia,
       img: img.name,
       img_con: img_con.map((file) => file.name).join(","),
       id_nhacungcap,
@@ -91,51 +81,23 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { tensp, mota, mota_chinh, dongia, giacu, id_nhacungcap, id_loailon, id_loai, color, donvitinh, dinhluong, chatlieu, donggoi, khogiay, xuatxu, kichthuoc, thuonghieu, thetich, url } = req.body;
-    const img = req.files?.img;
-    const img_con = req.files?.img_con;
-    
-    
-    let imgName = img ? img.name : undefined;
-
-    if (img) {
-      const imgPath = `../fevpp/public/img/product/${imgName}`;
-    
-      await img.mv(imgPath);
-  
-    }
-
-    // Di chuyển các tệp hình ảnh phụ đến public/images
-    if (img_con) {
-      await Promise.all(
-        img_con.map(async (file) => {
-          const filePath = `../fevpp/public/img/product/${file.name}`;
-         
-          await file.mv(filePath);
-          
-        })
-      );
-      
-    }
-  
+    const { img, img_con } = req.files || {};
     const product = await AdProduct.findOne({ where: { id: req.params.id } });
-
-    if (!product) {
-      return res.status(404).json({ msg: "Product not found" });
-    }
 
     const updatedProduct = await product.update({
       tensp: tensp || product.tensp,
       mota: mota || product.mota,
-      mota_chinh: mota_chinh || product.mota_chinh,
+      
+      mota_chinh: mota_chinh !== "" ? mota_chinh : "",
       dongia: dongia || product.dongia,
-      giacu: giacu || product.giacu,
-      img: imgName || product.img,
-      img_con:img_con || img_con ? img_con.map((file) => file.name).join(",") : product.img_con,
+      giacu: giacu || 0, // Set giacu to 0 if it's empty
+      img: img ? img.name : product.img,
+      img_con: img_con || img_con ? img_con.map((file) => file.name).join(",") : product.img_con,
       id_nhacungcap: id_nhacungcap || product.id_nhacungcap,
       id_loailon: id_loailon || product.id_loailon,
       id_loai: id_loai || product.id_loai,
       color: color !== "" ? color : "",
-      donvitinh: donvitinh !== "" ? color : "",
+      donvitinh: donvitinh !== "" ? donvitinh : "",
       dinhluong: dinhluong !== "" ? dinhluong : "",
       chatlieu: chatlieu !== "" ? chatlieu : "",
       donggoi: donggoi !== "" ? donggoi : "",
@@ -154,15 +116,15 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-export const deleteProduct = async(req, res) => {
+export const deleteProduct = async (req, res) => {
   try {
-      await AdProduct.destroy({
-          where: {
-              id: req.params.id
-          }
-      });
-      res.status(200).json({msg: "Menu Deleted"});
+    await AdProduct.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    res.status(200).json({ msg: "Menu Deleted" });
   } catch (error) {
-      console.log(error.message);
+    console.log(error.message);
   }
 }
