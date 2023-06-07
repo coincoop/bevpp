@@ -9,7 +9,8 @@ const AdBlog = db.define('blogs',{
         primaryKey: true,
         autoIncrement: true
     },
-    tenblog: DataTypes.STRING,    
+    tenblog: DataTypes.STRING,  
+    img_blog: DataTypes.STRING,  
     mota: DataTypes.STRING,
     url: DataTypes.STRING,
 },{
