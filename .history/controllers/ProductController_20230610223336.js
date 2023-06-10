@@ -64,11 +64,27 @@ export const getProductUrl = async (req, res) => {
           },
         },
       });
+      const html = `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8" data-rh="true" />
+          <title>${product.title}</title>
+          <meta name="description" content="${product.description}" />
+          <meta property="og:title" content="${product.title}" />
+          <meta property="og:description" content="${product.description}" />
+          <meta property="og:image" content="${product.image}" />
+          <!-- Các thẻ meta khác -->
+        </head>
+        <body>
+          <!-- Nội dung ứng dụng -->
+        </body>
+      </html>
+    `;
     
-      res.json({
-        product,
-        relatedProducts,
-      });
+    // Gửi phản hồi với template đã được thay đổi
+    res.send(html);
+    
     } else {
       // Xử lý khi không tìm thấy sản phẩm
       res.status(404).json({ message: "Product not found" });
