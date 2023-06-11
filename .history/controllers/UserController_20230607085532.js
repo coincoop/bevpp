@@ -165,19 +165,3 @@ export const editUser = async (req, res) => {
         console.log(error);
     }
 }
-
-export const getTenkh = async (req, res) => {
-    try {
-      const { makh } = req.params;
-      const user = await User.findOne({ where: { makh: makh } });
-      if (!user) {
-        return res.status(404).json({ message: "Không tìm thấy khách hàng" });
-      }
-      const tenkh = user.tenkh; // Lấy tên khách hàng từ user object
-
-      res.status(200).json({ tenkh });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Đã xảy ra lỗi" });
-    }
-  };
