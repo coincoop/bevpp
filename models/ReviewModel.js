@@ -15,7 +15,11 @@ const Review = db.define('review',{
         primaryKey: true
     },
     danhgia: DataTypes.FLOAT,
-    noidung: DataTypes.TEXT
+    noidung: DataTypes.TEXT,
+    reply: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
 },{
     freezeTableName:true
 });
