@@ -23,6 +23,8 @@ import AdHome from "./routes/AdHomeRoute.js";
 import AdCateProd from "./routes/AdCateProdRoute.js";
 import AdReview from "./routes/AdReviewRoute.js";
 import AdContact from "./routes/AdContactRoute.js";
+import Receipt from "./routes/ReceiptRoute.js";
+import Cthoadon from "./routes/CTHDRoute.js";
 
 const app = express();
 
@@ -57,6 +59,8 @@ app.use(blogRoute);
 app.use(reviewRoute);
 app.use(cateprodRoute);
 app.use(ContactRoute);
+app.use(Receipt);
+app.use(Cthoadon);
 
 app.listen(5000, () => {
   console.log("Server listening on port 5000");
