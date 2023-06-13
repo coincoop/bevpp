@@ -64,10 +64,10 @@ export const getCartByMakh = async (req, res) => {
 
 export const deleteCart = async (req, res) => {
   try {
+    const {makh} = req.params
     await Cart.destroy({
       where: {
-        masp: req.params.masp,
-        makh: req.params.makh
+        makh
       }
     });
 
