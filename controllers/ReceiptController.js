@@ -41,3 +41,12 @@ export const deleteHoadon = async (req, res) => {
         console.log(error);
     }
 }
+
+export const getAllHoadon = async (req, res) => {
+    try {
+        const hoadon = await Hoadon.findAll()
+        res.status(201).json(hoadon); 
+    } catch (error) {
+        console.log(error);
+    }
+}
